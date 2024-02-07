@@ -1,0 +1,1 @@
+Cada quien crear las rutas del controlador

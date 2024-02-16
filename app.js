@@ -1,6 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { pool } from "./src/database/conexion.js"; 
+import routeBodega from "./src/routers/Bodegas.Router.jeph.js";
+
+import { pool } from "./conexion.js"; 
 
 const app=express();
 
@@ -13,6 +15,9 @@ app.get('/',(req, res)=> {
     console.log(process.env);
     res.send('Pagina inicial');
 });
+
+
+app.use('/bodega', routeBodega);
 
 
 //Servidor

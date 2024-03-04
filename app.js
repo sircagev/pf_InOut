@@ -5,6 +5,7 @@ import RouteCategoria  from "./src/routes/CategoriaElemento.router.jdcc.js";
 import RouteEmpaque from "./src/routes/TipoEmpaque.router.jdcc.js";
 import RouteUbicacion from "./src/routes/Ubicacion.router.jdcc.js";
 import RouteElemento from "./src/routes/Elemento.router.jdcc.js";
+import RouteUsuarios from "./src/router/usuario.router.js";
 
 const app=express();
 
@@ -22,6 +23,7 @@ app.use('/categoria', RouteCategoria)
 app.use('/empaque', RouteEmpaque);
 app.use('/ubicacion', RouteUbicacion);
 app.use('/elemento', RouteElemento);
+servidor.use('/usuario', RouteUsuarios);
 
 
 //Servidor

@@ -6,7 +6,7 @@ import RouteEmpaque from "./src/routes/TipoEmpaque.router.jdcc.js";
 import RouteUbicacion from "./src/routes/Ubicacion.router.jdcc.js";
 import RouteElemento from "./src/routes/Elemento.router.jdcc.js";
 import RouteUsuarios from "./src/routes/usuario.router.js";
-
+import RouteReservas from "./src/routes/Reserva.routes.js"
 
 const app=express();
 
@@ -25,7 +25,7 @@ app.use('/empaque', RouteEmpaque);
 app.use('/ubicacion', RouteUbicacion);
 app.use('/elemento', RouteElemento);
 app.use('/usuario', RouteUsuarios);
-
+app.use('/reserva', RouteReservas);
 
 app.use('/bodega', routeBodega);
 

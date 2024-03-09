@@ -1,2 +1,10 @@
 Ensayos
 Cada quien realiza sus propios controladores
+
+{
+   "estado_reserva": "soicitado", 
+   "fk_usuario": 1, 
+   "detalles":[
+     {"fk_elemento": 1, "cantidad_elemento": 2, "observacion": ""}
+     ]
+}

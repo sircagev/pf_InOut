@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
 import routeBodega from "./src/routes/Bodegas.Router.jeph.js";
 import RouteCategoria  from "./src/routes/CategoriaElemento.router.jdcc.js";
@@ -11,6 +12,7 @@ import RouteReservas from "./src/routes/Reserva.routes.js"
 const app=express();
 
 //Configuracion
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 

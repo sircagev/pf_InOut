@@ -23,7 +23,7 @@ export const ListarEmpaque = async (req, res) => {
         let [result] = await pool.query(`select * from tipo_empaque`);
 
         if(result.length > 0) {
-            return res.status(200).json(result);
+            return res.status(200).json({"message": "Se encontró empaques", empaques: result});
         } else {
             return res.status(404).json({"message": "No se encontró empaques"});
         }

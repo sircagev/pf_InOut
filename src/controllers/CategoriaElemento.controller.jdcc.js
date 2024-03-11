@@ -26,7 +26,7 @@ export const listarCategoria = async(req ,res)=> {
         const [result] = await pool.query('select * from categoria_elemento');
         
         if(result.length>0){
-            return res.status(200).json(result); 
+            return res.status(200).json({message: "Uno",categorias: result}); 
         } else {
             return res.status(404).json({'message': 'No se econtró categorias'});
         }

@@ -29,7 +29,10 @@ export const ListarElemetos = async (req, res) => {
                 JOIN detalle_ubicacion AS u ON fk_ubicacion = codigo_detalleUbi
                 ORDER BY e.codigo_elemento ASC`);
         if (result.length > 0) {
-            return res.status(200).json(result);
+
+
+            return res.status(200).json({"message": "Elementos",elementos: result});
+
         } else {
             return res.status(404).json({ "message": "No hay elementos." });
         }

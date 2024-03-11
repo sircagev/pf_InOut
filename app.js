@@ -27,7 +27,7 @@ app.use('/empaque', RouteEmpaque);
 app.use('/ubicacion', RouteUbicacion);
 app.use('/elemento', RouteElemento);
 app.use('/usuario', RouteUsuarios);
-app.use('/reserva', RouteReservas);
+app.use('/reservas', RouteReservas);
 
 app.use('/bodega', routeBodega);
 

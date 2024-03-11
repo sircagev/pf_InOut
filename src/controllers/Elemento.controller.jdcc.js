@@ -23,7 +23,7 @@ export const ListarElemetos = async (req, res) => {
     try {
         let [result] = await pool.query(`select * from elementos`);
         if (result.length > 0) {
-            return res.status(200).json({"message": "Elementos", result});
+            return res.status(200).json({"message": "Elementos",elementos: result});
         } else {
             return res.status(404).json({"message": "No hay elementos."});
         }

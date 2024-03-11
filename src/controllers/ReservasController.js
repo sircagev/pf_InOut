@@ -83,7 +83,9 @@ export const ListarReservasActivas = async (req, res) => {
 export const ListarReservas = async (req, res) => {
     try {
         //Realizar consulta 
-        const sql = `SELECT * FROM reservas`
+        const sql = `SELECT codigo_reserva AS "Código de Reserva", estado_reserva AS Estado, nombre_usuario AS Usuario 
+                FROM reservas
+                JOIN usuarios ON fk_usuario = id_usuario`
         const [result] = await pool.query(sql)
 
         //Revisar si llego información
@@ -131,6 +133,56 @@ export const CambiarEstadoReserva = async (req, res) => {
         } else {
             return res.status(404).json({ "message": 'Error, no se pudo actualizar la reserva' });
         }
+    } catch (e) {
+        return res.status(500).json({ "message": e });
+    }
+}
+
+export const ActualizarReserva = async(req, res) => {
+    try {
+
+        let messageReserva;
+        let messageDetalle;
+        let status;
+        const { id } = req.params;
+        let { estado_reserva, fk_usuario, detalles } = req.body;
+
+        //Actualizar una Reserva
+        const sqlReserva = `UPDATE reservas SET estado_reserva = ?, fk_usuario = ? WHERE codigo_reserva = ?`;
+        const valuesReserva = [estado_reserva, fk_usuario, id]
+        let [ReservaRows] = await pool.query(sqlReserva, valuesReserva);
+
+        if (ReservaRows.affectedRows > 0) {
+            messageReserva = 'Se actualizo con éxito la reserva'
+            status = 200
+        } else {
+            return res.status(403).json({ message: "Reserva no actualizada" });
+        }
+
+        //Actualizar detalles de la reserva
+        for (const detalle of detalles) {
+            //Traer informacion de los detalles
+            const { fk_elemento, cantidad_elemento, observacion, estatus } = detalle;
+            console.log(detalle)
+            //Actualizar un detalle
+            const detalleSql = `UPDATE detalle_reservas SET fk_elemento=?, cantidad_elemento=?, observacion_reserva=?, estatus=? WHERE fk_reserva = ?`;
+            const detalleValues = [fk_elemento, cantidad_elemento, observacion, estatus, id];
+            let [DetalleRows] = await pool.query(detalleSql, detalleValues);
+
+            if (DetalleRows.affectedRows > 0) {
+                messageDetalle = "Se actualizo con éxito el detalle de la reserva";
+                status = 200
+            } else {
+                return res.status(403).json({ message: "Detalle de reserva no actualizado" });
+            }
+
+            // Actualizar el stock del elemento
+            const actualizarStockSql = `UPDATE elementos SET disponibilidad_stock = disponibilidad_stock - ? WHERE codigo_elemento = ?`;
+            const actualizarStockValues = [cantidad_elemento, fk_elemento];
+            await pool.query(actualizarStockSql, actualizarStockValues);
+        }
+
+        return res.status(status).json({ "message": messageReserva + " " + messageDetalle });
     } catch (e) {
         return res.status(500).json({ "message": e });
     }

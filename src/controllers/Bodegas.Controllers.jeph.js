@@ -76,17 +76,20 @@ export const ActualizarBodega = async (req, res) => {
     }
 }
 
-export const EliminarBodega = async(req, res) => {
+export const DesactivarBodega = async(req, res) => {
+try{
 
-    try {
-    let id = req.params.id;
-    let sql = `delete from bodegas where codigo_bodega = ${id}`;
-    let[rows] = await pool.query(sql);
+const {id} = req.params;
+
+const sql =`UPDATE elementos SET estado = 'inactivo' WHERE codigo_bodega =?`;
+const [result] = await pool.query(sql,[id]);
+
+    
 
         if(rows.affectedRows > 0) {
-            return res.status(200).json({"message": "Bodega elminada con éxito"});
+            return res.status(200).json({"message": "Bodega desactivada con exito con éxito"});
         } else {
-            return res.status(403).json({"message": "Bodega no eliminada"});
+            return res.status(403).json({"message": "Bodega no desactivada"});
         }
     }catch(e) {
         return res.status(500).json({"message": e.message});

@@ -22,12 +22,18 @@ export const RegistrarElemento = async (req, res) => {
 export const ListarElemetos = async (req, res) => {
     try {
         let [result] = await pool.query(
-                `SELECT e.*, c.nombre_categoria, em.Nombre_empaque, u.sector, u.ubicacion_especifica 
-                FROM elementos as e 
-                join categoria_elemento as c on fk_categoria = codigo_categoria 
+                `SELECT e.codigo_elemento AS Codigo, 
+                        e.nombre_elemento AS Nombre, 
+                        e.stock, e.tipo_elemento AS Tipo, 
+                        e.fecha_vancimiento AS "Fecha Vencimiento", 
+                        c.nombre_categoria AS Categoría, 
+                        em.Nombre_empaque AS empaque, 
+                        CONCAT(u.sector, ' ', u.ubicacion_especifica) AS Ubicación  
+                FROM elementos AS e 
+                JOIN categoria_elemento AS c ON fk_categoria = codigo_categoria 
                 JOIN tipo_empaque AS em ON fk_tipoEmpaque = Codigo_empaque
                 JOIN detalle_ubicacion AS u ON fk_ubicacion = codigo_detalleUbi
-                ORDER BY e.codigo_elemento ASC`);
+                `);
         if (result.length > 0) {
 
 
